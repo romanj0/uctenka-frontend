@@ -1,4 +1,4 @@
-describe("complete a login test", () => {
+describe("complete login test!", () => {
     const LOGIN = "test@test.test"
     const VALID_PASWORD = "test"
     const INVALID_PASWORD = "dsasdfaf"
