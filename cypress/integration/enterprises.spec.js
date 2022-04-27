@@ -29,7 +29,7 @@ describe("enterprises", () => {
     });
 
     it("create enterprise", () => {
-        cy.contains("[type=button]", "+").click();
+        cy.get("[data-cy=menu-item-enterprises]").click();
         cy.get(".anticon-plus").click();
         cy.get("#create-client_name").type("Romik Pepik");
         cy.get("#create-client_unifiedVatNumber").type("666");
@@ -38,9 +38,10 @@ describe("enterprises", () => {
         cy.get("#create-client_street").type("Huhuva 33");
         cy.get("#create-client_city").type("Huhuaov");
         cy.get("#create-client_postcode").type("123");
-        cy.multiSelect( "-single" , "NaturalPerson" );
+        cy.get("[data-cy=establishment-select-currency]").click();
+        cy.contains(".ant-select-item-option-content", "CZK").click();
         cy.get("#create-client_mobilePhone").type("727 727 727");
-        cy.contains("submit").click();
+        cy.contains("[type=submit]").click();
 
 
         
