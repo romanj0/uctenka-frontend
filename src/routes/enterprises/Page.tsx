@@ -1,13 +1,14 @@
-import { PlusOutlined } from '@ant-design/icons';
 import { useQuery } from '@apollo/client';
-import { Button, Card, Col, notification, Row } from 'antd';
+import { Col, notification, Row } from 'antd';
 import React, { useState } from 'react';
 import { EnterpriseResponse, GET_ENTERPRISES } from '../../graphql/queries/getEnterprises';
 import { ClientsList } from './components/ClientList';
 import { CreateBusinessDrawer } from './components/CreateDrawer';
+import { EditBusinessDrawer } from './components/EditDrawer';
 
 export const EnterprisesPage: React.VFC = () => {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isCreatingVisible, setIsCreatingVisible] = useState(false);
+  const [isEditingVisible, setIsEditingVisible] = useState(false);
   const { data, loading } = useQuery<EnterpriseResponse>(GET_ENTERPRISES, {
     onError(err) {
       notification.error({
@@ -22,27 +23,18 @@ export const EnterprisesPage: React.VFC = () => {
   return (
     <div>
       <Row>
-        <Col span={5}>
-          <Card title="Clients">
-            <div>Currently you have no clients, try to add one</div>
-            <Button
-              icon={<PlusOutlined />}
-              shape="circle"
-              size="large"
-              type="primary"
-              onClick={() => setIsVisible(true)}
-            />
-          </Card>
-        </Col>
-      </Row>
-
-      <Row>
         <Col span={24}>
-          <ClientsList data={data?.enterprises ?? []} isLoading={loading} />
+          <ClientsList
+            data={data?.enterprises ?? []}
+            isLoading={loading}
+            onCreate={() => setIsCreatingVisible(true)}
+            onEdit={() => setIsEditingVisible(true)}
+          />
         </Col>
       </Row>
 
-      <CreateBusinessDrawer isVisible={isVisible} setIsVisible={setIsVisible} />
+      <CreateBusinessDrawer isVisible={isCreatingVisible} setIsVisible={setIsCreatingVisible} />
+      <EditBusinessDrawer isVisible={isEditingVisible} setIsVisible={setIsEditingVisible} />
     </div>
   );
 };
